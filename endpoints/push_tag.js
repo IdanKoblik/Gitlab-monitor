@@ -12,6 +12,11 @@ const eventHandler = async (payload) => {
     const before = payload.before;
     const after = payload.after;
 
+    const isTag = ref.startsWith('refs/tags/');
+    const name = isTag ? ref.substring(10) : ref.substring(11);
+    const type = isTag ? "Tag" : "Branch";
+    const tree = isTag ? "tags" : "tree"
+
     for (let i = 0; i < len; i++) {
         const title = commits[i].title;
         const commitUrl = commits[i].url;
@@ -19,14 +24,13 @@ const eventHandler = async (payload) => {
         sb.append(`[${'`' + id + '`'}](${commitUrl}) ${title}\n`);
     }
 
-    const branchName = ref.substring(11);
-    let title = `Pushed to branch \`${branchName}\``;
-    let embedUrl = `${url}/-/tree/${branchName}`;
+    let title = `Pushed to ${type.toLocaleLowerCase()} \`${name}\``;
+    let embedUrl = `${url}/-/${tree}/${name}`;
     if (after === EMPTY_COMMIT_SHA) { 
-        title = `Branch \`${branchName}\` was destroyed`;
+        title = `${type} \`${name}\` was destroyed`;
         embedUrl = "";
     } else if (before === EMPTY_COMMIT_SHA) 
-        title = `Branch \`${branchName}\` was created`;
+        title = `${type} \`${name}\` was created`;
     
     return {
         title: title,
