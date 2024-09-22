@@ -35,6 +35,7 @@ describe('pushHandler', () => {
             ref: 'refs/heads/main',
             repository: { homepage: 'https://gitlab.com/repo' },
             user_username: 'testuser',
+            user_email: 'testuser@example.com', 
             project: { name: 'Test Project' },
         };
 
@@ -45,7 +46,7 @@ describe('pushHandler', () => {
         const embedArgs = webhookClient.send.mock.calls[0][0].embeds[0];
         expect(embedArgs).toBeDefined();
         expect(embedArgs.setTitle).toHaveBeenCalledWith('`Pushed to branch main`');
-        expect(embedArgs.setAuthor).toHaveBeenCalledWith({ name: 'testuser' });
+        expect(embedArgs.setAuthor).toHaveBeenCalledWith({ name: 'testuser', iconURL: 'https://www.gravatar.com/avatar/7ec7606c46a14a7ef514d1f1f9038823?s=200' });
         expect(embedArgs.setURL).toHaveBeenCalledWith('https://gitlab.com/repo/-/tree/main');
         expect(embedArgs.setDescription).toHaveBeenCalledWith(
             '[`abcd123`](https://gitlab.com/repo/commit/1) Initial commit\n' +
@@ -67,6 +68,7 @@ describe('pushHandler', () => {
             ref: 'refs/heads/main',
             repository: { homepage: 'https://gitlab.com/repo' },
             user_username: 'testuser',
+            user_email: 'testuser@example.com', 
             project: { name: 'Test Project' },
         };
 

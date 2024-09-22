@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const StringBuilder = require('../utils/stringBuilder');
+const Gravatar = require('../utils/gravatar')
 const MAX_COMMITS_COUNT = 5;
 
 module.exports = async (webhookClient, payload) => {
@@ -20,7 +21,7 @@ module.exports = async (webhookClient, payload) => {
 
     const embed = new EmbedBuilder()
         .setTitle('`' + `Pushed to branch ${ref.substring(11, ref.length)}` + '`')
-        .setAuthor({ name: payload.user_username})
+        .setAuthor({ name: payload.user_username, iconURL: Gravatar.getGravatarUrl(payload.user_email) })
         .setURL(`${url}/-/tree/${ref.substring(11, ref.length)}`)
         .setDescription(sb.toString())
         .setFooter({ text: payload.project.name})
