@@ -18,10 +18,11 @@ function verifyGitLabWebhook(req, res, next) {
   
 app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
     const payload = req.body;
-    const event = payload.object_kind;
-    console.log(`Received GitLab event: ${event}`);  
+    const objectKind = payload.object_kind;
+    console.log(`Received GitLab event: ${objectKind}`);  
     
     try {
+        const event = (objectKind == "tag_push" || objectKind == "push") ? "push_tag" : objectKind;
         const handlerPath = path.join(__dirname, 'endpoints', `${event.toLowerCase()}.js`);
         const { eventHandler } = require(handlerPath);
         
