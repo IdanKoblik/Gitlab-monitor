@@ -1,0 +1,26 @@
+{
+  "name": "gitlab-monitor",
+  "version": "1.0.0",
+  "description": " Discord webhook for monitoring gitlab projects. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/IdanKoblik/Gitlab-monitor.git"
+  },
+  "author": "IdanKoblik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IdanKoblik/Gitlab-monitor/issues"
+  },
+  "homepage": "https://github.com/IdanKoblik/Gitlab-monitor#readme",
+  "dependencies": {
+    "discord.js": "^14.16.2",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
