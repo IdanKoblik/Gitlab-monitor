@@ -16,6 +16,8 @@ const eventHandler = async (payload) => {
     const name = isTag ? ref.substring(10) : ref.substring(11);
     const type = isTag ? "Tag" : "Branch";
     const tree = isTag ? "tags" : "tree"
+    const email = isTag ? "test@test.com" : payload.user_email;
+    const username = payload.user_name;
 
     for (let i = 0; i < len; i++) {
         const title = commits[i].title;
@@ -33,6 +35,8 @@ const eventHandler = async (payload) => {
         title = `${type} \`${name}\` was created`;
     
     return {
+        username: username,
+        email: email,
         title: title,
         url: embedUrl,
         description: sb.toString()
