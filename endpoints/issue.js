@@ -17,7 +17,7 @@ const eventHandler = async (payload) => {
     ];
 
     let embedTitle = `${action.charAt(0).toUpperCase() + action.slice(1)}`
-    action === "close" ? embedTitle += "d": embedTitle += "ed";
+    embedTitle.endsWith('e') ? embedTitle += "d": embedTitle += "ed";
     const title = `${embedTitle} issue \`#${iid} ${issueTitle}\``;
 
     return {
