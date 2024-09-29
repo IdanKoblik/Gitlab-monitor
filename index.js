@@ -11,9 +11,10 @@ app.use(express.json());
 
 function verifyGitLabWebhook(req, res, next) {
     const signature = req.get('X-Gitlab-Token');
-	if (signature !== gitlabToken)
-	  return res.status(401).send('Unauthorized');
-	next();
+	  if (signature !== gitlabToken)
+	    return res.status(401).send('Unauthorized');
+	  
+    next();
 }
   
 app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
