@@ -22,6 +22,9 @@ app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
     const objectKind = payload.object_kind;
     console.log(`Received GitLab event: ${objectKind}`);  
     
+    if (objectKind === "build" || objectKind === "deployment")
+        return;
+
     try {
         const event = (objectKind === "tag_push" || objectKind === "push") ? "push_tag" : objectKind;
         const handlerPath = path.join(__dirname, 'endpoints', `${event.toLowerCase()}.js`);
@@ -40,7 +43,7 @@ app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
         if (embedData.fields && embedData.fields.length > 0)
             embed.setFields(embedData.fields);
 
-        if (embedData.description && embedData.description.length > 0)
+        if (embedData.description && (embedData.description.length > 0 && embedData.description.length < 2000))
             embed.setDescription(embedData.description);
 
         await webhookClient.send({ embeds: [embed] });
