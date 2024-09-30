@@ -2,7 +2,24 @@ const { EmbedBuilder, WebhookClient } = require('discord.js');
 const { webhookToken, webhookID, gitlabToken, port } = require('./config.json');
 const Gravatar = require('./utils/gravatar')
 const path = require('path');
+const {log, LogLevel} = require('./logger')
 const express = require('express');
+
+const HEADER = `
+ ██████╗ ██╗████████╗██╗      █████╗ ██████╗     ███╗   ███╗ ██████╗ ███╗   ██╗██╗████████╗ ██████╗ ██████╗
+██╔════╝ ██║╚══██╔══╝██║     ██╔══██╗██╔══██╗    ████╗ ████║██╔═══██╗████╗  ██║██║╚══██╔══╝██╔═══██╗██╔══██╗
+██║  ███╗██║   ██║   ██║     ███████║██████╔╝    ██╔████╔██║██║   ██║██╔██╗ ██║██║   ██║   ██║   ██║██████╔╝
+██║   ██║██║   ██║   ██║     ██╔══██║██╔══██╗    ██║╚██╔╝██║██║   ██║██║╚██╗██║██║   ██║   ██║   ██║██╔══██╗
+╚██████╔╝██║   ██║   ███████╗██║  ██║██████╔╝    ██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║   ██║   ╚██████╔╝██║  ██║
+ ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═════╝     ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
+`;
+
+(function () {
+    $consoleLog = console.log;
+    console.log = function ($message, $color) {
+      $consoleLog('%c' + $message, 'color:' + $color + ';font-weight:bold;');
+    }
+})();
 
 const webhookClient = new WebhookClient({ id: webhookID, token: webhookToken });
 const app = express();
@@ -25,6 +42,8 @@ app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
     if (objectKind === "build" || objectKind === "deployment")
         return;
 
+    log(`Received GitLab event: ${objectKind}`, LogLevel.SUCCESS);  
+	
     try {
         const event = (objectKind === "tag_push" || objectKind === "push") ? "push_tag" : objectKind;
         const handlerPath = path.join(__dirname, 'endpoints', `${event.toLowerCase()}.js`);
@@ -49,12 +68,14 @@ app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
         await webhookClient.send({ embeds: [embed] });
         res.sendStatus(200);
     } catch (error) {
-        console.error('Error handling GitLab event:', error);
+        log(`Error handling GitLab event: ${error}`, LogLevel.ERROR);
         res.status(500).send('Internal Server Error');
     }
 });
 
 
 app.listen(port, () => {
-	console.log(`GitLab webhook receiver listening at port: ${port}`);
+    log(HEADER, LogLevel.START, false);
+    console.log('\n');
+	  log(`GitLab webhook receiver listening at port: ${port}`, LogLevel.INFO);
 });
