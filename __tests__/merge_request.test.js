@@ -25,7 +25,7 @@ describe('eventHandler', () => {
             username: 'username',
             email: 'user@example.com',
             url: 'http://example.com/merge_requests/1',
-            title: "Created merge request '#1 Sample MR'",
+            title: "Created merge request `#1 Sample MR`",
             fields: [
                 { name: "From", value: 'feature', inline: true },
                 { name: "To", value: 'main', inline: true },
@@ -59,7 +59,7 @@ describe('eventHandler', () => {
             username: 'username',
             email: 'user@example.com',
             url: 'http://example.com/merge_requests/2',
-            title: "Approved merge request '#2 Sample MR 2'",
+            title: "Approved merge request `#2 Sample MR 2`",
             fields: [
                 { name: "From", value: 'feature-2', inline: true },
                 { name: "To", value: 'main', inline: true },
@@ -93,7 +93,7 @@ describe('eventHandler', () => {
             username: 'username',
             email: 'user@example.com',
             url: 'http://example.com/merge_requests/3',
-            title: "Updated merge request '#3 Sample MR with Labels'",
+            title: "Updated merge request `#3 Sample MR with Labels`",
             fields: [
                 { name: "From", value: 'feature-3', inline: true },
                 { name: "To", value: 'main', inline: true },
@@ -127,7 +127,7 @@ describe('eventHandler', () => {
             username: 'username',
             email: 'user@example.com',
             url: 'http://example.com/merge_requests/4',
-            title: "Closed merge request '#4 Sample MR with No Labels'",
+            title: "Closed merge request `#4 Sample MR with No Labels`",
             fields: [
                 { name: "From", value: 'feature-4', inline: true },
                 { name: "To", value: 'main', inline: true },

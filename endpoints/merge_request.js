@@ -24,7 +24,7 @@ const eventHandler = async (payload) => {
     else
         embedAction += 'ed';
     
-    const embedTitle = `${embedAction.charAt(0).toUpperCase() + embedAction.slice(1)} merge request \'#${iid} ${title}\'`;
+    const embedTitle = `${embedAction.charAt(0).toUpperCase() + embedAction.slice(1)} merge request \`#${iid} ${title}\``;
     const fields = [
         { name: "From", value: source, inline: true},
         { name: "To", value: target, inline: true},
