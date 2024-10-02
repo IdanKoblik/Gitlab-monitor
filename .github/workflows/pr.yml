@@ -1,0 +1,8 @@
+name: Pull request CI
+
+on:
+  pull_request
+
+jobs:
+  unit_test:
+    uses: ./.github/workflows/callable.test.yml
