@@ -5,4 +5,4 @@ on:
 
 jobs:
   unit_test:
-    uses: ./.github/workflows/callable.test.yml
+    uses: ./.github/workflows/callable.tests.yml
