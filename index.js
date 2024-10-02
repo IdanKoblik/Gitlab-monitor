@@ -14,9 +14,9 @@ const HEADER = `
  ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═════╝     ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
 `;
 
-(function () {
+(() => {
     $consoleLog = console.log;
-    console.log = function ($message, $color) {
+    console.log = ($message, $color) => {
       $consoleLog('%c' + $message, 'color:' + $color + ';font-weight:bold;');
     }
 })();
