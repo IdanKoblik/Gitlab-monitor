@@ -9,7 +9,11 @@ env:
     IMAGE_NAME: ${{ github.repository }}
       
 jobs:
+  unit_test:
+    uses: ./.github/workflows/callable.tests.yml
+
   build-and-push-image:
+    needs: unit_test
     runs-on: ubuntu-latest
     permissions:
       contents: read
