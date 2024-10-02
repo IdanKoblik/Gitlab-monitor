@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/IdanKoblik/Gitlab-monitor.git"
   },
-  "author": "IdanKoblik",
+  "author": "Idan Koblik <idankob@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IdanKoblik/Gitlab-monitor/issues"
