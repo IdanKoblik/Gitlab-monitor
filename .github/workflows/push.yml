@@ -2,7 +2,7 @@ name: Push CI
 
 on:
   push:
-    branches: ['master', '11-cicd-fix']
+    branches: ['master']
 
 env:
     REGISTRY: ghcr.io
