@@ -1,9 +1,10 @@
 const { EmbedBuilder, WebhookClient } = require('discord.js');
-const { webhookToken, webhookID, gitlabToken, port } = require('./config.json');
+const { port, tokens } = require('./config.json');
 const Gravatar = require('./utils/gravatar')
 const path = require('path');
 const {log, LogLevel} = require('./logger')
 const express = require('express');
+const url = require("node:url");
 
 const HEADER = `
  ██████╗ ██╗████████╗██╗      █████╗ ██████╗     ███╗   ███╗ ██████╗ ███╗   ██╗██╗████████╗ ██████╗ ██████╗
@@ -21,16 +22,24 @@ const HEADER = `
     }
 })();
 
-const webhookClient = new WebhookClient({ id: webhookID, token: webhookToken });
+/*
+let webhookClient = new WebhookClient({ id: webhookID, token: webhookToken });
+*/
 const app = express();
 
 app.use(express.json());
 
 function verifyGitLabWebhook(req, res, next) {
     const signature = req.get('X-Gitlab-Token');
-	  if (signature !== gitlabToken)
+	  if (!(signature in tokens))
 	    return res.status(401).send('Unauthorized');
-	  
+
+    res.discordWebhooks = tokens[signature];
+    console.log(`Verified GitLab webhook: ${signature}`);
+    res.discordWebhooks.forEach(webhook => {
+        console.log(`Verified Discord webhook: ${webhook}`);
+    })
+
     next();
 }
   
@@ -65,8 +74,11 @@ app.post('/webhook', verifyGitLabWebhook, async (req, res) => {
         if (embedData.description && (embedData.description.length > 0 && embedData.description.length < 2000))
             embed.setDescription(embedData.description);
 
-        await webhookClient.send({ embeds: [embed] });
-        res.sendStatus(200);
+        for (const webhook of res.discordWebhooks) {
+            const webhookClient = new WebhookClient({url : webhook });
+            await webhookClient.send({ embeds: [embed] });
+            res.sendStatus(200);
+        }
     } catch (error) {
         log(`Error handling GitLab event: ${error}`, LogLevel.ERROR);
         res.status(500).send('Internal Server Error');
