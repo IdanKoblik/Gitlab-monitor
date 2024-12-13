@@ -1,9 +1,16 @@
 const { EmbedBuilder, WebhookClient } = require('discord.js');
-const { port, tokens } = require('./config.json');
 const Gravatar = require('./utils/gravatar');
 const path = require('path');
 const express = require('express');
 const pino = require('pino');
+const fs = require('fs');
+
+let configPath = '/home/container/config.json';
+
+if (fs.existsSync(path.join(__dirname, 'config.json'))) 
+    configPath = path.join(__dirname, 'config.json'); 
+
+const { port, tokens } = require(configPath);
 
 const maskSensitiveInfo = (value) => {
     if (!value)
