@@ -1,7 +1,7 @@
 const eventHandler = async (payload) => {
     const user = payload.user;
     const email = user.email;
-    const username = user.username;
+    const username = user.user;
 
     const attributes = payload.object_attributes;
     const noteableType = attributes.noteable_type;
