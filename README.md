@@ -45,15 +45,14 @@ Create a `config.json` file in the project root with the following structure:
 ```json
 {
   "port": 3000,
-  "gitlabToken": "your-gitlab-webhook-token",
-  "webhookId": "your-discord-webhook-id",
-  "webhookToken": "your-discord-webhook-token"
+  "tokens": {
+   "gitlab-token": [
+      "discord-webhook1",
+      "discord-webhook2",
+   ]
+  }
 }
 ```
-
-- `port`: The port on which the server will listen (use 3000 for Docker)
-- `gitlabToken`: A random UUID that you'll set in your GitLab webhook settings
-- `webhookId` and `webhookToken`: Your Discord webhook credentials
 
 ## Contributing
 
